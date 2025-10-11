@@ -1,0 +1,76 @@
+body { font-family: system-ui, sans-serif; }
+    header.navbar { box-shadow: 0 2px 6px rgba(0,0,0,.08); }
+    .navbar-brand span { font-weight: 700; font-size: 1.25rem; color: #065f46; }
+    .logo-circle {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: #16a34a;
+      color: #fff;
+      font-weight: bold;
+      display:flex;align-items:center;justify-content:center;
+      margin-right: .5rem;
+    }
+    .btn-custom-login {
+      border:1px solid #ccc;
+      border-radius: .5rem;
+      display:flex;align-items:center;gap:.4rem;
+    }
+    .btn-custom-register {
+      background:#16a34a;
+      color:#fff;
+      border-radius:.5rem;
+      display:flex;align-items:center;gap:.4rem;
+    }
+    .btn-custom-register:hover { background:#15803d; color:#fff; }
+    footer { background:#064e3b; color:#d1fae5; }
+    footer a { color:#d1fae5; text-decoration:none; }
+    footer a:hover { color:#fff; }
+    footer h3 { font-size:1.1rem; font-weight:600; }
+    .footer-logo {
+      width:40px; height:40px;
+      border-radius:50%; background:#fff;
+      display:flex; align-items:center; justify-content:center;
+      font-weight:bold; color:#065f46;
+      margin-right:.5rem;
+    }
+/* Ghi đè CSS của Toastr để loại bỏ độ trong suốt (rgba) */
+
+/* 1. Thông báo Warning (Cảnh báo) */
+#toast-container .toast-warning {
+    /* Đặt màu nền solid (màu vàng đậm) */
+    background-color: #f0ad4e; /* Màu vàng đậm, không trong suốt */
+    opacity: 1; /* Đảm bảo độ mờ tuyệt đối */
+}
+
+/* 2. Thông báo Success (Thành công) */
+#toast-container .toast-success {
+    /* Màu xanh lá cây */
+    background-color: #5cb85c;
+    opacity: 1;
+}
+
+/* 3. Thông báo Error (Lỗi) */
+#toast-container .toast-error {
+    /* Màu đỏ */
+    background-color: #d9534f;
+    opacity: 1;
+}
+
+/* 4. Thông báo Info (Thông tin) */
+#toast-container .toast-info {
+    /* Màu xanh dương */
+    background-color: #5bc0de;
+    opacity: 1;
+}
+
+/* Tùy chọn: Đảm bảo nền của chính container cũng không bị trong suốt */
+#toast-container .toast {
+    opacity: 1 !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25); /* Thêm box-shadow cho đẹp */
+}
+#error-section{
+  display: none;
+}
+.pointer{
+  cursor: pointer;
+}

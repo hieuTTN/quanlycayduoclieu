@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DuocLieuVN - Đăng nhập</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/main.js"></script>
+</head>
+<body>
+<header id="header-main"></header>
+<!-- Container -->
+<!-- Container -->
+<div class="container py-5">
+  <!-- Header -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
+    <div>
+      <h1 class="h3 fw-bold text-dark">Bài viết</h1>
+      <p class="text-muted">Các bài viết về cây dược liệu và công dụng</p>
+    </div>
+  </div>
+
+  <!-- Search & Filters -->
+  <div class="bg-white p-4 rounded shadow-sm mb-4">
+    <div class="row g-3">
+      <div class="col-md-7">
+        <div class="position-relative">
+          <input type="text" class="form-control pe-5" placeholder="Tìm kiếm bài viết theo tiêu đề, nội dung...">
+          <button class="btn btn-sm btn-link position-absolute end-0 top-50 translate-middle-y text-secondary">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <select class="form-select">
+          <option value="all">Tất cả công dụng</option>
+          <option value="benh1">Công dụng 1</option>
+          <option value="benh2">Công dụng 2</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <select class="form-select">
+          <option value="title-asc">Tiêu đề A-Z</option>
+          <option value="title-desc">Tiêu đề Z-A</option>
+          <option value="newest">Mới nhất</option>
+          <option value="oldest">Cũ nhất</option>
+          <option value="popular">Phổ biến nhất</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <ul class="nav nav-tabs mb-4" id="viewTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="grid-tab" data-bs-toggle="tab" data-bs-target="#grid-view" type="button" role="tab">Lưới</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="list-tab" data-bs-toggle="tab" data-bs-target="#list-view" type="button" role="tab">Danh sách</button>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <!-- Grid view -->
+    <div class="tab-pane fade show active" id="grid-view" role="tabpanel">
+      <div class="row g-4">
+        <!-- Article Card -->
+        <div class="col-sm-6 col-lg-3">
+          <div class="card h-100 shadow-sm">
+            <div class="ratio ratio-16x9 bg-light d-flex align-items-center justify-content-center">
+              <i class="bi bi-image text-secondary fs-1"></i>
+            </div>
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge bg-success">Nổi bật</span>
+                <small class="text-muted"><i class="bi bi-calendar me-1"></i>01/10/2025</small>
+              </div>
+              <h5 class="card-title">Tiêu đề bài viết</h5>
+              <p class="card-text text-muted">Mô tả ngắn gọn về nội dung bài viết. Giới hạn 2-3 dòng hiển thị...</p>
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+              <small class="text-muted"><i class="bi bi-person me-1"></i>Tác giả</small>
+              <a href="#" class="btn btn-outline-primary btn-sm">Đọc tiếp</a>
+            </div>
+          </div>
+        </div>
+        <!-- Lặp thêm card -->
+      </div>
+    </div>
+
+    <!-- List view -->
+    <div class="tab-pane fade" id="list-view" role="tabpanel">
+      <div class="card mb-3 shadow-sm">
+        <div class="row g-0">
+          <div class="col-md-4 bg-light d-flex align-items-center justify-content-center" style="min-height:200px">
+            <i class="bi bi-image text-secondary fs-1"></i>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <div class="d-flex justify-content-between mb-2">
+                <span class="badge bg-primary">Công dụng</span>
+                <small class="text-muted"><i class="bi bi-calendar me-1"></i>02/10/2025</small>
+              </div>
+              <h5 class="card-title">Tiêu đề bài viết</h5>
+              <p class="card-text text-muted">Đoạn mô tả ngắn cho bài viết. Hiển thị 2-3 dòng để người đọc lướt qua...</p>
+              <div class="d-flex justify-content-between">
+                <small class="text-muted">Tác giả: Admin</small>
+                <small class="text-muted">Lượt xem: 120</small>
+              </div>
+              <div class="text-end mt-3">
+                <a href="#" class="btn btn-outline-primary btn-sm">Đọc tiếp</a>
+              </div>
+            </div>
+          </div>
+
+
+<footer class="pt-5" id="footer-main"></footer>
+</body>
+</html>
