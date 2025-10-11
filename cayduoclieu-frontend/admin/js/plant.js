@@ -12,6 +12,16 @@ async function loadPlantStatus() {
     });
 }
 
+async function loadPlantStatusSelect() {
+    const res = await fetch("http://localhost:8080/api/plant/public/all-status");
+    var list = await res.json();
+    var main = '<option value="">Tất cả trạng thái</option>';
+    list.forEach(s => {
+        main += `<option value="${s.name}">${s.label}</option>`;
+    });
+    document.getElementById("status").innerHTML = main
+}
+
 async function loadDiseasesSelectAdd() {
     const res = await fetch("http://localhost:8080/api/diseases/public/get-all-list");
     var list = await res.json();
@@ -35,6 +45,132 @@ async function loadFamiliesAdd() {
     });
     document.getElementById("families").innerHTML = main
 }
+
+async function loadFamiliesSelect() {
+    const res = await fetch("http://localhost:8080/api/families/public/all-list");
+    var list = await res.json();
+    var main = '<option value="">Tất cả họ thực vật</option>';
+    list.forEach(s => {
+        main += `<option value="${s.id}">${s.name}</option>`;
+    });
+    document.getElementById("families").innerHTML = main
+}
+
+var size = 10;
+async function loadAllPlant(page) {
+  const param = document.getElementById("param").value || "";
+  const status = document.getElementById("status").value || "";
+  const families = document.getElementById("families").value || "";
+  var url = `http://localhost:8080/api/plant/admin/all?page=${page}&size=${size}&q=${param}`;
+  if(status != ""){
+    url += `&plantStatus=${status}`
+  }
+  if(families != ""){
+    url += `&familiesId=${families}`
+  }
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: new Headers({
+      'Authorization': 'Bearer ' + token
+    })
+  });
+
+  if (!response.ok) {
+    toastr.error("Lỗi khi tải dữ liệu bệnh");
+    return;
+  }
+
+  const result = await response.json();
+  
+  const list = result.content || [];
+  console.log(list);
+  
+  const totalPage = result.totalPages || 0;
+  const totalElements = result.totalElements || 0;
+  const numberOfElements = result.numberOfElements || 0;
+
+  const start = totalElements === 0 ? 0 : page * size + 1;
+  const end = totalElements === 0 ? 0 : page * size + numberOfElements;
+
+  let main = '';
+  for (let i = 0; i < list.length; i++) {
+    const d = list[i];
+    main += `
+      <tr>
+        <td>${d.id}</td>
+        <td><img src="${d.image}" class="img-table"></td>
+        <td>${d.name}</td>
+        <td>${d.scientificName}</td>
+        <td>${d.families?.name}</td>
+        <td>${d.partsUsed}</td>
+        <td><span class="badge" style="background:${d.color}">${d.statusLabel}</span></td>
+        <td>${d.createdAt}</td>
+        <td>${d.updatedAt}</td>
+        <td class="text-center">
+            <a href="/admin/plant/create.html?id=${d.id}" class="btn btn-primary btn-sm" title="Sửa"><i class="fa-solid fa-pencil"></i></a>
+            <button onclick="deletePlant(${d.id})" class="btn btn-danger btn-sm " title="Xóa"><i class="fa-solid fa-xmark"></i></button>
+        </td>
+    </tr>`;
+  }
+
+  document.getElementById("listData").innerHTML = main;
+  document.getElementById("numElm").innerText = `Đang hiển thị ${start}-${end} trong ${totalElements} kết quả`;
+  renderPagination(page, totalPage);
+}
+
+async function loadAPlant() {
+    var id = window.location.search.split('=')[1];
+    if (id != null) {
+        var url = 'http://localhost:8080/api/plant/public/find-by-id?id=' + id;
+        const response = await fetch(url, {
+            method: 'GET'
+        });
+        var result = await response.json();
+        document.getElementById("name").value = result.name
+        document.getElementById("slug").value = result.slug
+        document.getElementById("scientificName").value = result.scientificName
+        document.getElementById("genus").value = result.genus
+        document.getElementById("otherNames").value = result.otherNames
+        document.getElementById("partsUsed").value = result.partsUsed
+        document.getElementById("description").value = result.description
+        document.getElementById("families").value = result.families.id
+        const diseaseIds = result.plantDiseases?.map(pd => pd.diseases?.id) || [];
+        $("#diseases").val(diseaseIds).change()
+        document.getElementById("status").value = result.plantStatus
+        document.getElementById("featured").value = result.featured
+        document.getElementById("botanicalCharacteristics").value = result.botanicalCharacteristics
+        document.getElementById("stem").value = result.stem
+        document.getElementById("leaf").value = result.leaf
+        document.getElementById("flower").value = result.flower
+        document.getElementById("fruitOrSeed").value = result.fruitOrSeed
+        document.getElementById("root").value = result.root
+        document.getElementById("chemicalComposition").value = result.chemicalComposition
+        document.getElementById("ecology").value = result.ecology
+        document.getElementById("medicinalUses").value = result.medicinalUses
+        document.getElementById("indications").value = result.indications
+        document.getElementById("contraindications").value = result.contraindications
+        document.getElementById("dosage").value = result.dosage
+        document.getElementById("folkRemedies").value = result.dosage
+        document.getElementById("sideEffects").value = result.sideEffects
+        document.getElementById("sideEffects").value = result.sideEffects
+        document.getElementById("previewWrapperMain").innerHTML = `<img src="${result.image}" class="img-fluid rounded" />`
+        window.ImageBanner = result.image
+        if(result.linkDocument != null && result.linkDocument != ""){
+            document.getElementById("noti-choosefile").innerHTML = `Có 1 file được chọn - <a href="${result.linkDocument}" download="download">Tải xuống<a>`
+        }
+        document.getElementById("anhdathem").style.display = 'block'
+        var main = ''
+        for (i = 0; i < result.plantMedia.length; i++) {
+            main += `<div id="imgdathem${result.plantMedia[i].id}" class="col-xl-2 col-lg-3 col-md-3 col-sm-4 col-4">
+                        <img style="width: 100%;" src="${result.plantMedia[i].imageLink}" class="image-upload">
+                        <button onclick="deleteImageDT(${result.plantMedia[i].id})" class="btn btn-danger form-control">Xóa ảnh</button>
+                    </div>`
+        }
+        document.getElementById("listanhdathem").innerHTML = main
+    }
+}
+
+
 
 async function savePlant() {
     var uls = new URL(document.URL)
@@ -103,6 +239,65 @@ async function savePlant() {
     }
 }
 
+
+
+async function deletePlant(id) {
+    var con = confirm("Xác nhận xóa cây dược liệu này?")
+    if (con == false) {
+        return;
+    }
+    var url = 'http://localhost:8080/api/plant/admin/delete?id=' + id;
+    const response = await fetch(url, {
+        method: 'DELETE',
+        headers: new Headers({
+            'Authorization': 'Bearer ' + token
+        })
+    });
+    if (response.status < 300) {
+        swal({
+            title: "Thông báo",
+            text: "xóa cây dược liệu thành công!",
+            type: "success"
+        },
+        function() {
+            loadAllPlant(0)
+        });
+    }
+    if (response.status == exceptionCode) {
+        toastr.warning(result.defaultMessage);
+        swal({
+            title: "Thông báo",
+            text: result.defaultMessage,
+            type: "error"
+        },
+        function() {
+        });
+    }
+}
+
+
+
+async function deleteImageDT(id) {
+    var con = confirm("Bạn muốn xóa ảnh này?");
+    if (con == false) {
+        return;
+    }
+    var url = 'http://localhost:8080/api/plant/admin/delete-image?id=' + id;
+    const response = await fetch(url, {
+        method: 'DELETE',
+        headers: new Headers({
+            'Authorization': 'Bearer ' + token
+        })
+    });
+    if (response.status < 300) {
+        toastr.success("xóa ảnh thành công!");
+        document.getElementById("imgdathem" + id).style.display = 'none';
+    }
+    if (response.status == exceptionCode) {
+        var result = await response.json()
+        toastr.warning(result.defaultMessage);
+    }
+}
 
 const uploadedImages = []; // lưu link ảnh đã upload
 let uploading = false;     // trạng thái đang upload
@@ -250,5 +445,49 @@ function initImageUpload() {
 
 $(document).ready(function() {
     initImageUpload();
-
 });
+
+
+function renderPagination(currentPage, totalPages) {
+    let maxVisiblePages = 3; // số trang hiển thị chính giữa
+    let mainpage = '';
+
+    // nút prev
+    if (currentPage > 0) {
+        mainpage += `<li class="page-item pointer" onclick="loadAllPlant(${currentPage - 1})"><a class="page-link">&laquo;</a></li>`;
+    }
+
+    // trang đầu
+    if (currentPage > 1) {
+        mainpage += `<li class="page-item pointer" onclick="loadAllPlant(0)"><a class="page-link">1</a></li>`;
+    }
+
+    // dấu ...
+    if (currentPage > 2) {
+        mainpage += `<li class="page-item disabled"><a class="page-link">...</a></li>`;
+    }
+
+    // trang ở giữa
+    for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+        if (i >= 0 && i < totalPages) {
+            mainpage += `<li onclick="loadAllPlant(${i})" class="page-item pointer ${i === currentPage ? 'active' : ''}"><a class="page-link">${i + 1}</a></li>`;
+        }
+    }
+
+    // dấu ...
+    if (currentPage < totalPages - 3) {
+        mainpage += `<li class="page-item disabled"><a class="page-link">...</a></li>`;
+    }
+
+    // trang cuối
+    if (currentPage < totalPages - 2) {
+        mainpage += `<li class="page-item pointer" onclick="loadAllPlant(${totalPages - 1})"><a class="page-link">${totalPages}</a></li>`;
+    }
+
+    // nút next
+    if (currentPage < totalPages - 1) {
+        mainpage += `<li class="page-item pointer" onclick="loadAllPlant(${currentPage + 1})"><a class="page-link">&raquo;</a></li>`;
+    }
+
+    document.getElementById("pageable").innerHTML = mainpage;
+}

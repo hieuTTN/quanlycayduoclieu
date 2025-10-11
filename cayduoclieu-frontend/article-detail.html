@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DuocLieuVN - Chi tiết Bài Viết</title> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link rel="stylesheet" href="css/style.css"> 
+    <script src="js/main.js"></script>
+    <script src="js/article.js"></script>
+    <style>
+        /* CSS tùy chỉnh cho trang chi tiết bài viết */
+        .article-banner {
+            width: 100%;
+            height: 350px; /* Chiều cao cố định cho banner */
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+        .article-content h1, .article-content h2, .article-content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+        .article-info-bar {
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+            margin-bottom: 2rem;
+        }
+        .article-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: justify;
+        }
+    </style>
+    <script>
+        // Hàm mô phỏng lấy dữ liệu từ API
+        function getMockArticleData() {
+            return {
+                id: 1,
+                title: "10 Cây Thuốc Nam Quý Giúp Giải Độc Gan Hiệu Quả",
+                slug: "10-cay-thuoc-nam-giai-doc-gan",
+                excerpt: "Gan là cơ quan quan trọng. Bài viết này tổng hợp 10 loại cây thuốc Nam được khoa học và dân gian công nhận về khả năng hỗ trợ và bảo vệ chức năng gan, giúp cơ thể khỏe mạnh.",
+                content: `
+                    <h2>I. Vai trò của Gan và Dược liệu Việt</h2>
+                    <p>Gan chịu trách nhiệm cho hơn 500 chức năng quan trọng, bao gồm giải độc, chuyển hóa chất dinh dưỡng, và sản xuất protein. Trong y học cổ truyền Việt Nam, nhiều loại cây đã được sử dụng để hỗ trợ lá gan khỏe mạnh.</p>
+                    
+                    <p><strong>Cây Atiso (Cynara scolymus):</strong></p>
+                    <p>Atiso nổi tiếng với hợp chất Cynarin, có tác dụng lợi mật, giúp quá trình tiêu hóa chất béo và loại bỏ độc tố diễn ra hiệu quả hơn. Có thể dùng bông, lá hoặc thân để nấu nước uống.</p>
+                    
+                    <h3>II. Các Loại Cây Thuốc Quý</h3>
+                    
+                    <p><strong>1. Cà Gai Leo (Solanum procumbens):</strong></p>
+                    <p>Là "thần dược" cho người bị viêm gan B, xơ gan. Cà Gai Leo chứa Glycoalkaloid có khả năng ức chế sự phát triển của virus viêm gan B và làm chậm quá trình xơ hóa gan. Dùng rễ và thân sắc nước uống hàng ngày.</p>
+                    <img src="https://picsum.photos/id/237/800/400" alt="Hình ảnh minh họa Cà Gai Leo" class="img-fluid">
+                    
+                    <p><strong>2. Xạ Đen (Celastrus hindsii):</strong></p>
+                    <p>Giúp tăng cường miễn dịch, tiêu viêm và bảo vệ tế bào gan khỏi tổn thương do gốc tự do.</p>
+
+                    <p><strong>3. Nhân Trần (Adenosma caeruleum):</strong></p>
+                    <p>Thường được dùng trong các bài thuốc trị vàng da, nóng trong. Nó có tác dụng tăng tiết mật, hạ men gan và giúp giải rượu.</p>
+                    
+                    <h4>III. Lưu ý khi sử dụng</h4>
+                    <p>Nên tham khảo ý kiến bác sĩ hoặc chuyên gia trước khi dùng các loại dược liệu để đảm bảo liều lượng và tránh tương tác với các loại thuốc Tây y khác.</p>
+                `,
+                imageBanner: "https://picsum.photos/id/101/1200/400", // Banner ảnh mô phỏng
+                articleStatus: "PUBLISHED",
+                statusLabel: "Đã đăng",
+                isFeatured: true,
+                allowComments: true,
+                views: 5230L,
+                publishedAt: "2025-09-15T10:30:00",
+                user: { firstName: "Nguyễn", lastName: "Văn A", email: "nva@duoclieuvn.com" },
+                diseases: { name: "Bệnh Gan" }
+            };
+        }
+
+        // Hàm chính để render dữ liệu vào HTML
+        function renderArticleDetail(article) {
+            // Cập nhật Tiêu đề trang
+            document.title = `DuocLieuVN - ${article.title}`;
+
+            // 1. Render Phần Tiêu đề và Banner
+            $('#article-title').text(article.title);
+            $('#article-banner').attr('src', article.imageBanner);
+            
+            // 2. Render Thông tin Tác giả và Ngày
+            const authorName = `${article.user.firstName} ${article.user.lastName}`;
+            const publishedDate = new Date(article.publishedAt).toLocaleDateString('vi-VN', {
+                year: 'numeric', month: 'long', day: 'numeric'
+            });
+
+            $('#author-name').text(authorName);
+            $('#published-date').text(publishedDate);
+            $('#article-views').text(article.views.toLocaleString('vi-VN'));
+            
+            // Render thẻ bệnh liên quan (nếu có)
+            if (article.diseases) {
+                $('#disease-tag').html(`<a href="#" class="badge bg-danger text-decoration-none me-2">${article.diseases.name}</a>`);
+            } else {
+                 $('#disease-tag').empty();
+            }
+
+            // 3. Render Tóm tắt
+            $('#article-excerpt').text(article.excerpt);
+
+            // 4. Render Nội dung chính
+            // Thường nội dung từ DB đã là HTML, nên chỉ cần chèn vào
+            $('#article-content').html(article.content);
+            
+            // 5. Cập nhật Breadcrumb
+            $('#breadcrumb-article-name').text(article.title);
+
+            // 6. Xử lý phần bình luận (chỉ hiển thị nếu cho phép)
+            if (!article.allowComments) {
+                $('#comments-section').html('<p class="text-muted text-center py-4">Chức năng bình luận đã bị vô hiệu hóa cho bài viết này.</p>');
+            }
+        }
+
+        window.onload = async function(){
+            // TODO: Thay thế bằng code gọi API thực tế. Ví dụ:
+            // const urlParams = new URLSearchParams(window.location.search);
+            // const articleSlug = urlParams.get('slug'); 
+            // const article = await fetch(`/api/articles/${articleSlug}`).then(res => res.json());
+            
+            const article = getMockArticleData(); // Dùng dữ liệu giả định
+            renderArticleDetail(article);
+        }
+    </script>
+</head>
+<body>
+    <header id="header-main"></header>
+
+    <div class="container py-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a href="article-list.html">Bài Viết</a></li>
+                <li class="breadcrumb-item active" aria-current="page" id="breadcrumb-article-name">Tên Bài Viết</li>
+            </ol>
+        </nav>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <h1 class="display-5 fw-bold mb-3" id="article-title">Tiêu đề Bài Viết Lớn và Chi Tiết</h1>
+                
+                <div class="article-info-bar d-flex justify-content-between text-muted small">
+                    <div>
+                        <i class="bi bi-person-fill me-1"></i>Tác giả: <strong id="author-name"></strong>
+                        <span class="mx-2">|</span>
+                        <i class="bi bi-calendar-check me-1"></i>Ngày đăng: <span id="published-date"></span>
+                    </div>
+                    <div>
+                        <span id="disease-tag"></span>
+                        <i class="bi bi-eye-fill me-1"></i>Lượt xem: <span id="article-views"></span>
+                    </div>
+                </div>
+                
+                <img src="placeholder.png" alt="Ảnh Banner Bài viết" class="article-banner" id="article-banner">
+                
+                <p class="lead text-primary fst-italic mb-5 p-3 border-start border-4 border-primary bg-light" id="article-excerpt">
+                    Đây là phần tóm tắt ngắn gọn (excerpt) của bài viết, giúp người đọc nắm bắt ý chính.
+                </p>
+
+                <div class="article-content" id="article-content">
+                    </div>
+
+                <hr class="mt-5 mb-4">
+                <div class="d-flex justify-content-end align-items-center">
+                    <span class="me-3">Chia sẻ:</span>
+                    <a href="#" class="btn btn-outline-secondary btn-sm me-2"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="btn btn-outline-secondary btn-sm me-2"><i class="bi bi-twitter"></i></a>
+                    <a href="#" class="btn btn-outline-secondary btn-sm"><i class="bi bi-envelope"></i></a>
+                </div>
+                
+                <h3 class="mt-5 mb-3">Bình Luận</h3>
+                <div id="comments-section">
+                    <p class="text-muted">Chức năng bình luận đang được phát triển...</p>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <footer class="pt-5" id="footer-main"></footer>
+</body>
+</html>

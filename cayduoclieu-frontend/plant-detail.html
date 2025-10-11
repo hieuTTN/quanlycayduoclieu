@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DuocLieuVN - Chi tiết Cây Dược Liệu</title> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link rel="stylesheet" href="css/style.css"> 
+    <script src="js/main.js"></script>
+    <script src="js/plant.js"></script>
+    <style>
+        /* CSS tùy chỉnh cho trang chi tiết */
+        .plant-image-main {
+            width: 100%;
+            height: 350px; /* Chiều cao cố định cho ảnh chính */
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .plant-info-card {
+            border: none;
+            border-left: 5px solid var(--bs-primary);
+            border-radius: 0;
+            padding-left: 15px;
+        }
+        .nav-tabs .nav-link.active {
+            border-bottom: 3px solid var(--bs-primary);
+            color: var(--bs-primary);
+            font-weight: 600;
+        }
+        .content-section p, .content-section ul, .content-section li {
+            text-align: justify;
+        }
+        .image-gallery img {
+            height: 120px;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .image-gallery img:hover {
+            transform: scale(1.05);
+        }
+        /* Giả định màu primary của bạn là màu xanh lá đậm */
+        :root {
+            --bs-primary: #198754; 
+        }
+    </style>
+    <script>
+        // Hàm mô phỏng lấy dữ liệu từ API
+        function getMockPlantData() {
+            return {
+                id: 1,
+                name: "Cây Xạ Đen",
+                scientificName: "Celastrus hindsii Benth.",
+                slug: "xa-den",
+                genus: "Chi Dây Gối (Celastrus)",
+                otherNames: "Bách giải, Cây ung thư, Dây gối",
+                partsUsed: "Lá, Thân",
+                description: "Xạ đen là một loại cây thuốc quý được sử dụng rộng rãi trong y học cổ truyền Việt Nam, đặc biệt nổi tiếng với công dụng hỗ trợ điều trị ung bướu, tăng cường sức khỏe và giải độc gan. Cây thường mọc ở vùng núi cao.",
+                botanicalCharacteristics: "Cây thân leo, dài khoảng 3-10m. Cành tròn, lúc non có màu xanh nhạt, khi già chuyển màu nâu hoặc xám. Lá mọc so le, phiến lá hình bầu dục, mép có răng cưa nhỏ. Hoa nhỏ, màu trắng, mọc thành chùm. Quả nang, hình trứng, khi chín có màu đỏ tươi.",
+                chemicalComposition: "Chứa các hợp chất Flavonoid (như Quercetin, Rutin, Saponin triterpenoid) có tác dụng chống oxy hóa, kháng khuẩn và chống viêm. Ngoài ra còn có các Quinon và Triterpenoid khác.",
+                distribution: "Phân bố chủ yếu ở các tỉnh miền núi phía Bắc Việt Nam như Hòa Bình, Ninh Bình, Thanh Hóa. Thích hợp với khí hậu nhiệt đới gió mùa.",
+                altitude: "Thường mọc ở độ cao từ 800 - 1500m so với mực nước biển.",
+                harvestSeason: "Quanh năm, tốt nhất là vào mùa hè thu.",
+                ecology: "Ưa sáng, chịu hạn tốt, thường mọc ở ven rừng, trên núi đá hoặc đồi cây bụi.",
+                medicinalUses: "Thanh nhiệt, giải độc, mát gan, tiêu viêm, hỗ trợ điều trị các bệnh về gan, huyết áp cao, và đặc biệt là hỗ trợ ức chế sự phát triển của tế bào ung thư.",
+                indications: "Viêm gan, xơ gan, khối u, mụn nhọt, mất ngủ, suy nhược cơ thể.",
+                contraindications: "Phụ nữ mang thai và cho con bú.",
+                dosage: "Sắc nước uống: 30-40g lá và thân khô/ngày, đun với 1-1.5 lít nước.",
+                folkRemedies: "Sắc Xạ Đen kết hợp với Bán Chi Liên và Bạch Hoa Xà Thiệt Thảo để tăng cường hiệu quả hỗ trợ điều trị ung bướu.",
+                sideEffects: "Hiện chưa ghi nhận tác dụng phụ nghiêm trọng. Có thể gây tiêu chảy nhẹ nếu dùng liều quá cao.",
+                stem: "Dài, thân gỗ, có nhiều cành. Khi non màu xanh, khi già màu nâu sẫm.",
+                leaf: "Hình bầu dục, mọc so le, đầu nhọn, mép có răng cưa nhỏ.",
+                flower: "Nhỏ, màu trắng, mọc thành chùm ở kẽ lá.",
+                fruitOrSeed: "Quả nang, hình trứng, khi chín có màu đỏ tươi.",
+                root: "Rễ cọc, bám sâu vào lòng đất.",
+                linkDocument: "https://example.com/tai-lieu-xa-den",
+                image: "https://picsum.photos/id/400/800/600", // Ảnh chính mô phỏng
+                plantStatus: "NORMAL",
+                statusLabel: "Bình thường",
+                families: { name: "Họ Dây Gối (Celastraceae)" },
+                plantMedia: [
+                    { id: 1, imageLink: "https://picsum.photos/id/401/300/200" },
+                    { id: 2, imageLink: "https://picsum.photos/id/402/300/200" },
+                    { id: 3, imageLink: "https://picsum.photos/id/403/300/200" },
+                    { id: 4, imageLink: "https://picsum.photos/id/404/300/200" },
+                ],
+                plantDiseases: [
+                    { diseases: { name: "Bệnh Đốm Lá" } },
+                    { diseases: { name: "Sâu Ăn Lá" } }
+                ]
+            };
+        }
+
+        // Hàm chính để render dữ liệu vào HTML
+        function renderPlantDetail(plant) {
+            // Cập nhật Tiêu đề trang
+            document.title = `DuocLieuVN - ${plant.name}`;
+
+            // 1. Render Phần Tổng quan
+            $('#plant-main-image').attr('src', plant.image);
+            $('#plant-name').text(plant.name);
+            $('#plant-scientific-name').text(`(${plant.scientificName})`);
+            $('#plant-description').html(plant.description.replace(/\n/g, '<br>'));
+
+            // 2. Render Các Thông tin cơ bản
+            $('#plant-genus').text(plant.genus || 'Đang cập nhật');
+            $('#plant-family').text(plant.families ? plant.families.name : 'Đang cập nhật');
+            $('#plant-other-names').text(plant.otherNames || 'Không có');
+            $('#plant-parts-used').text(plant.partsUsed || 'Đang cập nhật');
+            $('#plant-status').text(plant.statusLabel || 'Không rõ').closest('span').css('background-color', plant.color);
+
+            // 3. Render Nội dung Chi tiết (Tabs)
+            // Lưu ý: Dùng .html() và thay thế \n bằng <br> để giữ định dạng
+            $('#botanical-characteristics-content').html(plant.botanicalCharacteristics ? plant.botanicalCharacteristics.replace(/\n/g, '<br>') : 'Đang cập nhật.');
+            $('#chemical-composition-content').html(plant.chemicalComposition ? plant.chemicalComposition.replace(/\n/g, '<br>') : 'Đang cập nhật.');
+            $('#distribution-ecology-content').html(`
+                <p><strong>Phân bố địa lý:</strong> ${plant.distribution ? plant.distribution.replace(/\n/g, '<br>') : 'Đang cập nhật.'}</p>
+                <p><strong>Độ cao sinh trưởng:</strong> ${plant.altitude || 'Đang cập nhật'}</p>
+                <p><strong>Mùa thu hoạch:</strong> ${plant.harvestSeason || 'Đang cập nhật'}</p>
+                <p><strong>Đặc điểm sinh thái:</strong> ${plant.ecology ? plant.ecology.replace(/\n/g, '<br>') : 'Đang cập nhật.'}</p>
+            `);
+            $('#medicinal-uses-content').html(plant.medicinalUses ? plant.medicinalUses.replace(/\n/g, '<br>') : 'Đang cập nhật.');
+            $('#indications-content').html(`
+                <p><strong>Chỉ định:</strong> ${plant.indications ? plant.indications.replace(/\n/g, '<br>') : 'Đang cập nhật.'}</p>
+                <p><strong>Chống chỉ định:</strong> ${plant.contraindications ? plant.contraindications.replace(/\n/g, '<br>') : 'Đang cập nhật.'}</p>
+                <p><strong>Liều lượng:</strong> ${plant.dosage ? plant.dosage.replace(/\n/g, '<br>') : 'Đang cập nhật.'}</p>
+                <p><strong>Bài thuốc dân gian:</strong> ${plant.folkRemedies ? plant.folkRemedies.replace(/\n/g, '<br>') : 'Đang cập nhật.'}</p>
+                <p><strong>Tác dụng phụ:</strong> ${plant.sideEffects ? plant.sideEffects.replace(/\n/g, '<br>') : 'Đang cập nhật.'}</p>
+            `);
+
+            // 4. Render Đặc điểm hình thái chi tiết
+            $('#stem-info').text(plant.stem || 'Đang cập nhật');
+            $('#leaf-info').text(plant.leaf || 'Đang cập nhật');
+            $('#flower-info').text(plant.flower || 'Đang cập nhật');
+            $('#fruitOrSeed-info').text(plant.fruitOrSeed || 'Đang cập nhật');
+            $('#root-info').text(plant.root || 'Đang cập nhật');
+
+            // 5. Render Thư viện ảnh
+            let galleryHtml = '';
+            if (plant.plantMedia && plant.plantMedia.length > 0) {
+                plant.plantMedia.forEach(media => {
+                    galleryHtml += `
+                        <div class="col-3 col-md-2 mb-3">
+                            <img src="${media.imageLink}" class="img-fluid rounded shadow-sm" alt="Hình ảnh liên quan" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="$('#modalImage').attr('src', '${media.imageLink}')">
+                        </div>
+                    `;
+                });
+            } else {
+                galleryHtml = '<div class="col-12"><p class="text-muted">Không có thêm hình ảnh liên quan.</p></div>';
+            }
+            $('#image-gallery-row').html(galleryHtml);
+
+            // 6. Render Tài liệu liên quan
+            if (plant.linkDocument) {
+                $('#link-document').html(`<a href="${plant.linkDocument}" target="_blank" class="btn btn-outline-primary"><i class="bi bi-file-earmark-text"></i> Xem Tài liệu Khoa học</a>`);
+            } else {
+                $('#link-document').html('<span class="text-muted">Chưa có tài liệu liên quan.</span>');
+            }
+            
+            // 7. Render Các Bệnh thường gặp
+            let diseaseHtml = '';
+            if (plant.plantDiseases && plant.plantDiseases.length > 0) {
+                plant.plantDiseases.forEach(pd => {
+                    diseaseHtml += `<span class="badge bg-danger me-2">${pd.diseases.name}</span>`;
+                });
+            } else {
+                diseaseHtml = '<span class="text-muted">Chưa có thông tin về bệnh hại.</span>';
+            }
+            $('#plant-diseases').html(diseaseHtml);
+        }
+
+        window.onload = async function(){
+            // TODO: Thay thế bằng code gọi API thực tế. Ví dụ:
+            // const urlParams = new URLSearchParams(window.location.search);
+            // const plantSlug = urlParams.get('slug'); 
+            // const plant = await fetch(`/api/plants/${plantSlug}`).then(res => res.json());
+            
+            const plant = getMockPlantData(); // Dùng dữ liệu giả định
+            renderPlantDetail(plant);
+        }
+    </script>
+</head>
+<body>
+    <header id="header-main"></header>
+
+    <div class="container py-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a href="plant-list.html">Cây Dược Liệu</a></li>
+                <li class="breadcrumb-item active" aria-current="page" id="breadcrumb-plant-name">Tên Cây</li>
+            </ol>
+        </nav>
+        
+        <h1 class="mb-2" id="plant-name">Tên Cây Dược Liệu</h1>
+        <p class="lead text-muted fst-italic mb-4" id="plant-scientific-name">(Tên Khoa học)</p>
+        
+        <div class="row">
+            <div class="col-lg-5 mb-4">
+                <img src="placeholder.png" alt="Ảnh chính của cây dược liệu" class="plant-image-main" id="plant-main-image">
+                
+                <h3 class="mt-4 mb-3">Mô Tả Tổng Quan</h3>
+                <div class="card p-3 shadow-sm">
+                    <p class="mb-0 text-dark" id="plant-description">Mô tả ngắn về cây dược liệu, công dụng chính và tầm quan trọng của nó.</p>
+                </div>
+
+                <h4 class="mt-4 mb-3">Thông Tin Phụ</h4>
+                <div class="d-flex flex-wrap">
+                    <p class="me-3"><strong>Trạng thái:</strong> <span class="badge" id="plant-status"></span></p>
+                    <div id="link-document"></div>
+                </div>
+            </div>
+
+            <div class="col-lg-7 mb-4">
+                
+                <div class="card p-4 mb-4 shadow-sm plant-info-card">
+                    <h5 class="mb-3 text-primary"><i class="bi bi-info-circle-fill me-2"></i>Chi Tiết Phân Loại</h5>
+                    <div class="row">
+                        <div class="col-md-6 mb-2"><strong>Họ:</strong> <span id="plant-family"></span></div>
+                        <div class="col-md-6 mb-2"><strong>Chi:</strong> <span id="plant-genus"></span></div>
+                        <div class="col-md-6 mb-2"><strong>Tên khác:</strong> <span id="plant-other-names"></span></div>
+                        <div class="col-md-6 mb-2"><strong>Bộ phận dùng:</strong> <span id="plant-parts-used"></span></div>
+                    </div>
+                </div>
+
+                <ul class="nav nav-tabs" id="plantTab" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="morphology-tab" data-bs-toggle="tab" data-bs-target="#morphology" type="button" role="tab" aria-controls="morphology" aria-selected="true"><i class="bi bi-tree me-1"></i>Hình Thái</button></li>
+                    <li class="nav-item" role="presentation"><button class="nav-link" id="chem-tab" data-bs-toggle="tab" data-bs-target="#chem" type="button" role="tab" aria-controls="chem" aria-selected="false"><i class="bi bi-flask me-1"></i>Hóa Học</button></li>
+                    <li class="nav-item" role="presentation"><button class="nav-link" id="dist-tab" data-bs-toggle="tab" data-bs-target="#dist" type="button" role="tab" aria-controls="dist" aria-selected="false"><i class="bi bi-geo-alt me-1"></i>Phân Bố & Sinh Thái</button></li>
+                    <li class="nav-item" role="presentation"><button class="nav-link" id="med-tab" data-bs-toggle="tab" data-bs-target="#med" type="button" role="tab" aria-controls="med" aria-selected="false"><i class="bi bi-heart-pulse me-1"></i>Công Dụng & Liều Dùng</button></li>
+                </ul>
+                <div class="tab-content border border-top-0 p-4 shadow-sm bg-light" id="plantTabContent">
+                    
+                    <div class="tab-pane fade show active content-section" id="morphology" role="tabpanel" aria-labelledby="morphology-tab">
+                        <p id="botanical-characteristics-content"></p>
+                        
+                        <h6 class="mt-4 text-primary">Đặc điểm chi tiết từng bộ phận:</h6>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><strong>Thân:</strong> <span id="stem-info"></span></li>
+                            <li class="list-group-item"><strong>Lá:</strong> <span id="leaf-info"></span></li>
+                            <li class="list-group-item"><strong>Hoa:</strong> <span id="flower-info"></span></li>
+                            <li class="list-group-item"><strong>Quả/Hạt:</strong> <span id="fruitOrSeed-info"></span></li>
+                            <li class="list-group-item"><strong>Rễ:</strong> <span id="root-info"></span></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tab-pane fade content-section" id="chem" role="tabpanel" aria-labelledby="chem-tab">
+                        <p id="chemical-composition-content"></p>
+                    </div>
+                    
+                    <div class="tab-pane fade content-section" id="dist" role="tabpanel" aria-labelledby="dist-tab">
+                        <div id="distribution-ecology-content"></div>
+                        <h6 class="mt-4 text-danger">Bệnh Hại Thường Gặp:</h6>
+                        <div id="plant-diseases"></div>
+                    </div>
+
+                    <div class="tab-pane fade content-section" id="med" role="tabpanel" aria-labelledby="med-tab">
+                        <p id="medicinal-uses-content"></p>
+                        
+                        <h6 class="mt-4 text-success">Hướng Dẫn Sử Dụng & Lưu Ý:</h6>
+                        <div id="indications-content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-5">
+        <h2 class="mb-4"><i class="bi bi-image-fill me-2 text-primary"></i>Thư Viện Hình Ảnh</h2>
+        <div class="row g-3 image-gallery" id="image-gallery-row">
+            </div>
+    </div>
+    
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">Hình ảnh chi tiết</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="" class="img-fluid" id="modalImage" alt="Hình ảnh chi tiết dược liệu">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="pt-5" id="footer-main"></footer>
+</body>
+</html>

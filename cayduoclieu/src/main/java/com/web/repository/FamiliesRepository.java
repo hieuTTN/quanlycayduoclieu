@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import com.web.entity.Families;
 
+import java.util.List;
+
 @Repository
 public interface FamiliesRepository extends JpaRepository<Families, Long>, JpaSpecificationExecutor<Families> {
     Boolean existsByName(String name);
@@ -15,4 +17,7 @@ public interface FamiliesRepository extends JpaRepository<Families, Long>, JpaSp
 
     @Query("select f from Families f where f.name like %?1%")
     Page<Families> findAllByParam(String search, Pageable pageable);
+
+    @Query("select f from Families f order by f.name asc")
+    List<Families> findAllByAscName();
 }

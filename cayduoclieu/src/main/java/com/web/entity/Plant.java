@@ -3,6 +3,7 @@ package com.web.entity;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.web.enums.PlantStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -158,4 +159,14 @@ public class Plant extends BaseEntity {
     @OneToMany(mappedBy = "plant", cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<PlantDiseases> plantDiseases = new ArrayList<>();
+
+    @JsonProperty("color")
+    private String getColor(){
+        return this.plantStatus.getColor();
+    }
+
+    @JsonProperty("statusLabel")
+    private String getLabelStatus(){
+        return this.plantStatus.getLabel();
+    }
 }

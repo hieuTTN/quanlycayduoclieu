@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import com.web.entity.*;
 
+import java.util.Optional;
+
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long>, JpaSpecificationExecutor<Article> {
 
@@ -24,4 +26,15 @@ public interface ArticleRepository extends JpaRepository<Article, Long>, JpaSpec
               AND (:status IS NULL OR a.articleStatus = :status)
             """)
     Page<Article> findAllByParam(String search, ArticleStatus status, Pageable pageable);
+
+    @Query("""
+            SELECT a FROM Article a
+            WHERE (:search IS NULL OR LOWER(a.title) LIKE LOWER(CONCAT('%', :search, '%')) 
+                   OR LOWER(a.excerpt) LIKE LOWER(CONCAT('%', :search, '%')))
+              AND (:diseasesId IS NULL OR a.diseases.id = :diseasesId)
+            """)
+    Page<Article> findAllByParam(String search,Long diseasesId, Pageable pageable);
+
+    @Query("select a from Article a where a.slug = ?1")
+    Optional<Article> findBySlug(String slug);
 }

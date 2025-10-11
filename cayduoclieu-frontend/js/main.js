@@ -20,7 +20,7 @@ $( document ).ready(function() {
           <li class="nav-item"><a class="nav-link" href="/articles.html">Bài viết</a></li>
           <li class="nav-item"><a class="nav-link" href="/research.html">Nghiên cứu</a></li>
           <li class="nav-item"><a class="nav-link" href="/experts.html">Chuyên gia</a></li>
-          <li class="nav-item"><a class="nav-link" href="/about">Giới thiệu</a></li>
+          <li class="nav-item"><a class="nav-link" href="/about.html">Giới thiệu</a></li>
         </ul>
         <div class="d-flex gap-2">
           <a href="/login.html" class="btn btn-light btn-custom-login">

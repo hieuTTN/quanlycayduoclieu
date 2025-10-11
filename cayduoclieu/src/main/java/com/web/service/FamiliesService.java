@@ -90,6 +90,6 @@ public class FamiliesService {
     }
 
     public List<Families> findAllList(){
-        return familiesRepository.findAll();
+        return familiesRepository.findAllByAscName();
     }
 }

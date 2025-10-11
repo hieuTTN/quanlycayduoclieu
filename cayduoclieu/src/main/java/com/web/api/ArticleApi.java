@@ -30,6 +30,15 @@ public class ArticleApi {
         return articleService.getAll(q, status, pageable);
     }
 
+    @GetMapping("/public/all")
+    public Page<Article> getAllPublic(
+          Pageable pageable,
+            @RequestParam(required = false) String q,
+            @RequestParam(required = false) Long diseasesId
+    ) {
+        return articleService.getAllPublic(q, diseasesId, pageable);
+    }
+
     @GetMapping("/public/find-by-id")
     public Article findById(@RequestParam Long id) {
         return articleService.findById(id);

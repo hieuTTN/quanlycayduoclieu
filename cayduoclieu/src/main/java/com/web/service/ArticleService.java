@@ -33,6 +33,14 @@ public class ArticleService {
         );
     }
 
+    public Page<Article> getAllPublic(String search, Long diseasesId, Pageable pageable) {
+        return articleRepository.findAllByParam(
+                (search == null || search.trim().isEmpty()) ? null : search.trim(),
+                diseasesId,
+                pageable
+        );
+    }
+
     public Article findById(Long id) {
         return articleRepository.findById(id)
                 .orElseThrow(() -> new MessageException("Không tìm thấy bài viết"));
@@ -97,5 +105,9 @@ public class ArticleService {
             throw new MessageException("Bài viết không tồn tại");
         }
         articleRepository.deleteById(id);
+    }
+
+    public Article findBySlug(String slug) {
+        return articleRepository.findBySlug(slug).orElse(null);
     }
 }
