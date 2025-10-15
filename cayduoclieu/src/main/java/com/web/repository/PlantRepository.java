@@ -1,5 +1,6 @@
 package com.web.repository;
 
+import com.web.dto.PlantImp;
 import com.web.enums.PlantStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -53,4 +54,7 @@ public interface PlantRepository extends JpaRepository<Plant, Long>, JpaSpecific
 
     @Query("select p from Plant p where p.slug = ?1")
     Optional<Plant> findBySlug(String slug);
+
+    @Query("select p.id as id, p.name as name from Plant p order by p.name asc ")
+    List<PlantImp> findAllName();
 }

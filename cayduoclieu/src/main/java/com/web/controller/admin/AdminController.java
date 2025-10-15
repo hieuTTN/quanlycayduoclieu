@@ -23,6 +23,11 @@ public class AdminController {
         return "admin/create-user.html";
     }
 
+    @RequestMapping(value = {"/create-research"}, method = RequestMethod.GET)
+    public String createResearch() {
+        return "admin/create-research.html";
+    }
+
     @RequestMapping(value = {"/index"}, method = RequestMethod.GET)
     public String index() {
         return "admin/index.html";
@@ -51,5 +56,10 @@ public class AdminController {
     @RequestMapping(value = {"/list-user"}, method = RequestMethod.GET)
     public String listUser() {
         return "admin/list-user.html";
+    }
+
+    @RequestMapping(value = {"/list-research"}, method = RequestMethod.GET)
+    public String listResearch() {
+        return "admin/list-research.html";
     }
 }

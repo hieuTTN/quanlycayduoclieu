@@ -174,3 +174,10 @@ function renderPagination(currentPage, totalPages) {
 
     document.getElementById("pageable").innerHTML = mainpage;
 }
+
+function clickSelect(){
+    $("#diseases").select2('open');
+    $("#families").select2('open');
+    $("#diseases").select2('close');
+    $("#families").select2('close');
+}

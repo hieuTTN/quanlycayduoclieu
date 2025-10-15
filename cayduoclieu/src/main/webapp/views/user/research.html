@@ -10,6 +10,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/main.js"></script>
+    <script src="js/research.js"></script>
+    <script>
+      window.onload = async function(){
+        loadAllResearch(0);
+      }
+    </script>
 </head>
 <body>
 <header id="header-main"></header>
@@ -35,21 +41,21 @@
           <span class="position-absolute top-50 start-0 translate-middle-y ps-3 text-muted">
             <i class="bi bi-search"></i>
           </span>
-          <input type="text" class="form-control ps-5" placeholder="Tìm kiếm nghiên cứu...">
+          <input id="param" onkeyup="loadAllResearch(0)" type="text" class="form-control ps-5" placeholder="Tìm kiếm nghiên cứu...">
         </div>
       </div>
       <div class="col-md-2">
-        <select class="form-select">
-          <option selected>Lĩnh vực</option>
-          <option value="duoc-ly">Dược lý</option>
-          <option value="hoa-duoc">Hóa dược</option>
-          <option value="thuc-vat">Thực vật học</option>
-          <option value="y-hoc">Y học</option>
+        <select class="form-select" id="field" onchange="loadAllResearch(0)">
+          <option selected value="">Lĩnh vực</option>
+          <option value="Dược lý">Dược lý</option>
+          <option value="Hóa dược">Hóa dược</option>
+          <option value="Thực vật học">Thực vật học</option>
+          <option value="Y học">Y học</option>
         </select>
       </div>
       <div class="col-md-2">
-        <select class="form-select">
-          <option selected>Năm</option>
+        <select class="form-select" id="year" onchange="loadAllResearch(0)">
+          <option selected value="">Năm</option>
           <option value="2023">2023</option>
           <option value="2022">2022</option>
           <option value="2021">2021</option>
@@ -60,57 +66,57 @@
   </div>
 
   <!-- Research List -->
-  <div class="d-flex flex-column gap-4 mb-5">
+  <div class="d-flex flex-column gap-4 mb-5" id="list-research">
     <!-- Card (repeat 8 lần) -->
-    <div class="card p-4">
-      <div class="row g-4">
-        <!-- Nội dung chính -->
-        <div class="col-md-9">
-          <div class="d-flex align-items-center gap-3 mb-3">
-            <span class="badge bg-light text-primary">Dược lý</span>
-            <div class="d-flex align-items-center text-muted small">
-              <i class="bi bi-calendar me-1"></i>2023
-            </div>
-          </div>
-          <h5 class="mb-3">
-            <a href="#" class="text-decoration-none text-dark fw-semibold">Nghiên cứu thành phần hóa học và tác dụng sinh học của cây dược liệu 1</a>
-          </h5>
-          <p class="text-muted mb-3">
-            Nghiên cứu này tập trung vào việc phân tích thành phần hóa học và đánh giá tác dụng sinh học của cây dược liệu 1, một loài cây được sử dụng trong y học cổ truyền Việt Nam.
-          </p>
-          <div class="d-flex flex-wrap gap-3 mb-3 small text-muted">
-            <span><i class="bi bi-person me-1"></i>GS.TS. Nguyễn Văn A</span>
-            <span><i class="bi bi-book me-1"></i>Đại học Y Dược TP.HCM</span>
-          </div>
-          <div class="d-flex flex-wrap gap-2">
-            <span class="badge bg-light text-dark"><i class="bi bi-tag me-1"></i>Dược liệu 1</span>
-            <span class="badge bg-light text-dark"><i class="bi bi-tag me-1"></i>Hóa học</span>
-            <span class="badge bg-light text-dark"><i class="bi bi-tag me-1"></i>Tác dụng sinh học</span>
-          </div>
-        </div>
+<!--    <div class="card p-4">-->
+<!--      <div class="row g-4">-->
+<!--        &lt;!&ndash; Nội dung chính &ndash;&gt;-->
+<!--        <div class="col-md-9">-->
+<!--          <div class="d-flex align-items-center gap-3 mb-3">-->
+<!--            <span class="badge bg-light text-primary">Dược lý</span>-->
+<!--            <div class="d-flex align-items-center text-muted small">-->
+<!--              <i class="bi bi-calendar me-1"></i>2023-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <h5 class="mb-3">-->
+<!--            <a href="#" class="text-decoration-none text-dark fw-semibold">Nghiên cứu thành phần hóa học và tác dụng sinh học của cây dược liệu 1</a>-->
+<!--          </h5>-->
+<!--          <p class="text-muted mb-3">-->
+<!--            Nghiên cứu này tập trung vào việc phân tích thành phần hóa học và đánh giá tác dụng sinh học của cây dược liệu 1, một loài cây được sử dụng trong y học cổ truyền Việt Nam.-->
+<!--          </p>-->
+<!--          <div class="d-flex flex-wrap gap-3 mb-3 small text-muted">-->
+<!--            <span><i class="bi bi-person me-1"></i>GS.TS. Nguyễn Văn A</span>-->
+<!--            <span><i class="bi bi-book me-1"></i>Đại học Y Dược TP.HCM</span>-->
+<!--          </div>-->
+<!--          <div class="d-flex flex-wrap gap-2">-->
+<!--            <span class="badge bg-light text-dark"><i class="bi bi-tag me-1"></i>Dược liệu 1</span>-->
+<!--            <span class="badge bg-light text-dark"><i class="bi bi-tag me-1"></i>Hóa học</span>-->
+<!--            <span class="badge bg-light text-dark"><i class="bi bi-tag me-1"></i>Tác dụng sinh học</span>-->
+<!--          </div>-->
+<!--        </div>-->
 
-        <!-- Ảnh + Nút -->
-        <div class="col-md-3 d-flex flex-column justify-content-between">
-          <div class="mb-3">
-            <img src="https://via.placeholder.com/256x128?text=Nghiên+cứu+1" class="img-fluid rounded" alt="Nghiên cứu 1">
-          </div>
-          <div class="d-flex flex-column gap-2">
-            <a href="#" class="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2">
-              <i class="bi bi-file-earmark-text"></i> Xem chi tiết
-            </a>
-            <button class="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2">
-              <i class="bi bi-filetype-pdf"></i> PDF
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+<!--        &lt;!&ndash; Ảnh + Nút &ndash;&gt;-->
+<!--        <div class="col-md-3 d-flex flex-column justify-content-between">-->
+<!--          <div class="mb-3">-->
+<!--            <img src="https://via.placeholder.com/256x128?text=Nghiên+cứu+1" class="img-fluid rounded" alt="Nghiên cứu 1">-->
+<!--          </div>-->
+<!--          <div class="d-flex flex-column gap-2">-->
+<!--            <a href="#" class="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2">-->
+<!--              <i class="bi bi-file-earmark-text"></i> Xem chi tiết-->
+<!--            </a>-->
+<!--            <button class="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2">-->
+<!--              <i class="bi bi-filetype-pdf"></i> PDF-->
+<!--            </button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
   </div>
 
   <!-- Pagination -->
   <div class="d-flex justify-content-center">
     <nav class="pagination">
-      <ul class="pagination mb-0">
+      <ul class="pagination mb-0" id="pageable">
         <li class="page-item disabled">
           <a class="page-link">&laquo;</a>
         </li>

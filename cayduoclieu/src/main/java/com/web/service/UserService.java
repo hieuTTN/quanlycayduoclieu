@@ -236,7 +236,7 @@ public class UserService {
         mailService.sendEmail(email, "Đặt lại mật khẩu","Cảm ơn bạn đã tin tưởng và xử dụng dịch vụ của chúng tôi:<br>" +
                 "Chúng tôi đã tạo một mật khẩu mới từ yêu cầu của bạn<br>" +
                 "Hãy lick vào bên dưới để đặt lại mật khẩu mới của bạn<br><br>" +
-                "<a href='http://localhost:5500/reset-password.html?email="+email+"&key="+random+"' style=\"background-color: #2f5fad; padding: 10px; color: #fff; font-size: 18px; font-weight: bold;\">Đặt lại mật khẩu</a>",false, true);
+                "<a href='http://localhost:8080/reset-password.html?email="+email+"&key="+random+"' style=\"background-color: #2f5fad; padding: 10px; color: #fff; font-size: 18px; font-weight: bold;\">Đặt lại mật khẩu</a>",false, true);
 
     }
 

@@ -11,7 +11,7 @@ $( document ).ready(function() {
         <a href="/admin" class="nav-link active"><i data-lucide="layout-dashboard" class="me-2"></i>Trang chủ</a>
         <a href="/admin/plant/list.html" class="nav-link"><i data-lucide="leaf" class="me-2"></i>Cây dược liệu</a>
         <a href="/admin/blog/list.html" class="nav-link"><i data-lucide="file-text" class="me-2"></i>Bài viết</a>
-        <a href="/admin/research" class="nav-link"><i data-lucide="book-open" class="me-2"></i>Nghiên cứu</a>
+        <a href="/admin/research/list.html" class="nav-link"><i data-lucide="book-open" class="me-2"></i>Nghiên cứu</a>
         <a href="/admin/experts" class="nav-link"><i data-lucide="user-circle" class="me-2"></i>Chuyên gia</a>
         <a href="/admin/account/list.html" class="nav-link"><i data-lucide="users" class="me-2"></i>Người dùng</a>
         <div class="accordion" id="menuAccordion">

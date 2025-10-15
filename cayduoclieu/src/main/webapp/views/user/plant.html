@@ -17,6 +17,7 @@
       window.onload = async function(){
         await loadDiseasesSelect();
         await loadFamiliesSelect();
+        clickSelect()
         loadAllPlant(0);
       }
     </script>
@@ -149,5 +150,7 @@
 
 
 <footer class="pt-5" id="footer-main"></footer>
+<th:block th:replace="user/chat :: chatMain">
+</th:block>
 </body>
 </html>

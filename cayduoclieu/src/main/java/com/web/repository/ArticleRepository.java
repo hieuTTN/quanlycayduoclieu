@@ -32,6 +32,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long>, JpaSpec
             WHERE (:search IS NULL OR LOWER(a.title) LIKE LOWER(CONCAT('%', :search, '%')) 
                    OR LOWER(a.excerpt) LIKE LOWER(CONCAT('%', :search, '%')))
               AND (:diseasesId IS NULL OR a.diseases.id = :diseasesId)
+              and a.articleStatus = 'DA_XUAT_BAN'
             """)
     Page<Article> findAllByParam(String search,Long diseasesId, Pageable pageable);
 

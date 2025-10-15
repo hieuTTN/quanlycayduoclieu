@@ -1,6 +1,10 @@
 package com.web.entity;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.web.enums.ResearchStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +12,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -16,6 +21,7 @@ import java.util.List;
 @Entity
 @Table(name = "research")
 public class Research extends BaseEntity {
+
     @Column(nullable = false)
     private String title;
 
@@ -40,8 +46,25 @@ public class Research extends BaseEntity {
 
     private String field;
 
-    @Column(nullable = false)
-    private Integer status = 1; // Default: DRAFT
+    private String imageBanner;
+
+    private String linkDocument;
+
+    private ResearchStatus researchStatus;
 
     private Integer views = 0;
+
+    @OneToMany(mappedBy = "research", cascade = CascadeType.REMOVE)
+    @JsonManagedReference
+    private List<ResearchPlant> researchPlants = new ArrayList<>();
+
+    @JsonProperty("color")
+    private String getColor(){
+        return this.researchStatus.getColor();
+    }
+
+    @JsonProperty("statusLabel")
+    private String getLabelStatus(){
+        return this.researchStatus.getLabel();
+    }
 }

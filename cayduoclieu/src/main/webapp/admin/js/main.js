@@ -7,13 +7,13 @@ $( document ).ready(function() {
         <div class="brand-circle">DL</div>
         <span class="ms-2 brand">DuocLieuVN</span>
       </div>
-      <nav class="flex-grow-1 p-2">
-        <a href="/admin" class="nav-link active"><i data-lucide="layout-dashboard" class="me-2"></i>Trang chủ</a>
+      <nav class="flex-grow-1 p-2" id="navmain">
+        <a href="/" class="nav-link"><i data-lucide="layout-dashboard" class="me-2"></i>Trang chủ</a>
         <a href="/admin/list-plant" class="nav-link"><i data-lucide="leaf" class="me-2"></i>Cây dược liệu</a>
         <a href="/admin/list-article" class="nav-link"><i data-lucide="file-text" class="me-2"></i>Bài viết</a>
-        <a href="/admin/research" class="nav-link"><i data-lucide="book-open" class="me-2"></i>Nghiên cứu</a>
+        <a href="/admin/list-research" class="nav-link"><i data-lucide="book-open" class="me-2"></i>Nghiên cứu</a>
         <a href="/admin/experts" class="nav-link"><i data-lucide="user-circle" class="me-2"></i>Chuyên gia</a>
-        <a href="/admin/list-user" class="nav-link"><i data-lucide="users" class="me-2"></i>Người dùng</a>
+        <a href="/admin/list-user" class="nav-link active"><i data-lucide="users" class="me-2"></i>Người dùng</a>
         <div class="accordion" id="menuAccordion">
           <div class="accordion-item border-0">
             <h2 class="accordion-header">
@@ -58,12 +58,37 @@ var navbarAdmin =
               <li><a class="dropdown-item" href="#"><i data-lucide="user-circle" class="me-2"></i>Hồ sơ</a></li>
               <li><a class="dropdown-item" href="#"><i data-lucide="settings" class="me-2"></i>Cài đặt</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item text-danger" href="/logout"><i data-lucide="log-out" class="me-2"></i>Đăng xuất</a></li>
+              <li><a class="dropdown-item text-danger" href="#" onclick="logout()"><i data-lucide="log-out" class="me-2"></i>Đăng xuất</a></li>
             </ul>
           </div>
         </div>
       </header>`
 document.getElementById("navbar-admin").innerHTML = navbarAdmin
 lucide.createIcons();
+    // Gọi hàm sau khi header đã được chèn vào DOM
+    setActiveMenu();
 });
 
+function setActiveMenu() {
+    var currentPath = window.location.pathname;
+
+    var currentBaseUrl = currentPath
+    $('#navmain .nav-link').removeClass('active');
+    // 4. Lặp qua tất cả các liên kết và kiểm tra
+    $('#navmain .nav-link').each(function() {
+        var linkHref = $(this).attr('href'); // Lấy href, ví dụ: /plant
+        // Lấy phần href cơ bản (ví dụ: /plant -> plant, /index -> index)
+        var linkBaseUrl = linkHref
+        // So sánh URL cơ bản của link với URL cơ bản hiện tại
+        if (linkBaseUrl === currentBaseUrl) {
+            $(this).addClass('active');
+            return false;
+        }
+    });
+}
+
+function logout(){
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    window.location.href = '/logout'
+}

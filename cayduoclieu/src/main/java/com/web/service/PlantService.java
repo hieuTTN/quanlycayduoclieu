@@ -1,5 +1,6 @@
 package com.web.service;
 
+import com.web.dto.PlantImp;
 import com.web.dto.PlantSearch;
 import com.web.dto.request.PlantRequestDto;
 import com.web.dto.specification.PlantSpecification;
@@ -106,5 +107,9 @@ public class PlantService {
     public Plant findBySlug(String slug) {
         Optional<Plant> optionalBlog = plantRepository.findBySlug(slug);
         return optionalBlog.orElse(null);
+    }
+
+    public List<PlantImp> findAllName(){
+        return plantRepository.findAllName();
     }
 }

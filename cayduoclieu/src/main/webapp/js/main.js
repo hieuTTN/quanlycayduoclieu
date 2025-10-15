@@ -1,6 +1,22 @@
 var token = localStorage.getItem("token");
 const exceptionCode = 417;
 $( document ).ready(function() {
+    var auth = `<a href="/login" class="btn btn-light btn-custom-login">
+            <i class="bi bi-box-arrow-in-right"></i> Đăng nhập
+          </a>
+          <a href="/regis" class="btn btn-custom-register">
+            <i class="bi bi-person"></i> Đăng ký
+          </a>`
+    if(token != null){
+        auth = `
+        <a href="#" onclick="logout()" class="btn btn-light btn-custom-login">
+            <i class="bi bi-box-arrow-in-left"></i> Đăng xuất
+          </a>
+          <a href="/regis" class="btn btn-custom-register">
+            <i class="bi bi-person"></i> Tài khoản
+          </a>
+        `
+    }
     var headerUser = 
     `<nav class="navbar navbar-expand-lg bg-white py-3">
     <div class="container">
@@ -23,12 +39,7 @@ $( document ).ready(function() {
           <li class="nav-item"><a class="nav-link" href="/about">Giới thiệu</a></li>
         </ul>
         <div class="d-flex gap-2">
-          <a href="/login" class="btn btn-light btn-custom-login">
-            <i class="bi bi-box-arrow-in-right"></i> Đăng nhập
-          </a>
-          <a href="/regis" class="btn btn-custom-register">
-            <i class="bi bi-person"></i> Đăng ký
-          </a>
+        ${auth}
         </div>
       </div>
     </div>
@@ -84,7 +95,10 @@ $( document ).ready(function() {
     <div class="text-center border-top mt-4 pt-3">
       © 2025 DuocLieuVN. Tất cả các quyền được bảo lưu.
     </div>
-  </div>`
+  </div>
+</div>
+`
+
   document.getElementById("footer-main").innerHTML = footerUser
 
     function setActiveMenu() {
@@ -125,3 +139,10 @@ $( document ).ready(function() {
     // Gọi hàm sau khi header đã được chèn vào DOM
     setActiveMenu();
 });
+
+
+function logout(){
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    window.location.href = '/logout'
+}

@@ -1,5 +1,6 @@
 package com.web.api;
 
+import com.web.dto.PlantImp;
 import com.web.dto.PlantSearch;
 import com.web.dto.request.PlantRequestDto;
 import com.web.entity.Article;
@@ -41,6 +42,11 @@ public class PlantApi {
     @PostMapping("/public/all")
     public Page<Plant> getAll(Pageable pageable,@RequestBody PlantSearch plantSearch) {
         return plantService.getAllByPublic(pageable, plantSearch);
+    }
+
+    @GetMapping("/admin/all-name")
+    public List<PlantImp> getAllName() {
+        return plantService.findAllName();
     }
 
     @PostMapping("/admin/create")
